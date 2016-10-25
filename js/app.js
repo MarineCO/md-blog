@@ -43,8 +43,12 @@
 			console.log(response.menu);
 
 			for (var i = 0; i < response.menu.length; i++) {
-			 var aliceMenu = response.menu[i];
-				$('#menu').append('<li>' + '<a href="#">' + aliceMenu.title + '</a>' + '</li>');
+				var generalMenu = response.menu[i];
+			if (generalMenu.title === "Alice in wonderland") {
+				$('#menu').append('<li>' + '<a href="http://192.168.1.40:1337/alice.md">' + "Alice in wonderland" + '</a>' + '</li>');
+			}
+			if (generalMenu.title === "Markdown Example")
+				$('#menu').append('<li>' + '<a href="http://192.168.1.40:1337/example.md">' + "Markdown Example" + '</a>' + '</li>');
 			}
 		},
 
