@@ -18,10 +18,12 @@
 		},
 
 		ajaxDone: function(response) {
+		
 			var converter = new showdown.Converter(),
 				text = response,
 				html = converter.makeHtml(response);
-				console.log(html);
+				
+				$('#md').html(html);
 
 		},
 
