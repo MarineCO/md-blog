@@ -18,7 +18,11 @@
 		},
 
 		ajaxDone: function(response) {
-			console.log(response);
+			var converter = new showdown.Converter(),
+				text = response,
+				html = converter.makeHtml(response);
+				console.log(html);
+
 		},
 
 		ajaxFail: function() {
