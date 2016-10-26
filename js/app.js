@@ -2,28 +2,65 @@
 	"use strict";
 	var app = {
 		init:function(){
-			//this.listeners();
-			this.getData();
+			this.getDataMenu();
+			//this.getDataAlice();
+			//this.getDataExample();
 		},
 
 		listeners: function() {
-			//$('#btn').on('click', this.getData.bind(this));
+			$(".new0").on('click', this.getDataExample.bind(this));
+			$(".new1").on('click', this.getDataAlice.bind(this));
 		},
 
-		getData: function() {
-			$.ajax("http://192.168.1.40:1337/alice.md")
-			.done(this.ajaxDone)
-			.fail(this.ajaxFail)
-			.always(this.ajaxAlways);
-
+		getDataMenu: function() {
 			$.ajax("http://192.168.1.40:1337/menu.json")
-			.done(this.jsonDone)
-			.fail(this.jsonFail)
-			.always(this.jsonAlways);
+			.done(this.menuDone)
+			.fail(this.menuFail)
+			.always(this.menuAlways);
 		},
 
-		ajaxDone: function(response) {
+		getDataAlice: function() {
+			$.ajax("http://192.168.1.40:1337/alice.md")
+			.done(this.aliceDone)
+			.fail(this.aliceFail)
+			.always(this.aliceAlways);
+		},
 
+		getDataExample: function() {
+			$.ajax("http://192.168.1.40:1337/example.md")
+			.done(this.exampleDone)
+			.fail(this.exampleFail)
+			.always(this.exampleAlways);
+		},
+
+		menuDone: function(response) {
+			console.log(response.menu);
+
+			for (var i = 0; i < response.menu.length; i++) {
+				// var aliceMenu = response.menu[0];
+				// var exampleMenu = response.menu[1];
+				
+				//var url = "http://192.168.1.40:1337" + response.menu[i].path;
+				var obj = response.menu[i].title;
+				//console.log(obj)
+
+				$('#menu').append('<li>' + '<button>' + obj + '</button>' + '</li>');
+				$('#menu li button').addClass(function(index) {
+					return "new" + index;
+				});
+				app.listeners();
+			}
+		},
+
+		menuFail: function() {
+			console.log('erreur menu');
+		},
+
+		menuAlways: function() {
+			console.log('complete menu');
+		},
+		
+		aliceDone: function(response) {
 			var converter = new showdown.Converter(),
 			text = response,
 			html = converter.makeHtml(text);
@@ -31,31 +68,30 @@
 			$('#md').html(html);
 		},
 
-		ajaxFail: function() {
-			console.log('erreur');
+		aliceFail: function() {
+			console.log('erreur alice');
 		},
 
-		ajaxAlways: function() {
-			console.log('complete');
+		aliceAlways: function() {
+			console.log('complete alice');
 		},
 
-		jsonDone: function(response) {
-			console.log(response.menu);
+		exampleDone: function(response) {
+			var converter = new showdown.Converter(),
+			text = response,
+			html = converter.makeHtml(text);
 
-			for (var i = 0; i < response.menu.length; i++) {
-				var aliceMenu = response.menu[0];
-				var exampleMenu = response.menu[1];
-				$('#menu').html('<li>' + '<a href="#">' + aliceMenu.title + '</a>' + '</li>' + '<li>' + '<a href="#">' + exampleMenu.title + '</a>' + '</li>');
-			}
+			$('#md').html(html);
 		},
 
-		jsonFail: function() {
-			console.log('erreur');
+		exampleFail: function() {
+			console.log('erreur example');
 		},
 
-		jsonAlways: function() {
-			console.log('complete');
+		exampleAlways: function() {
+			console.log('complete example');
 		},
+
 	};
 
 
@@ -63,3 +99,5 @@
 		app.init();
 	});
 })();
+
+//pr refactorisation avoir une seule requête ajax / 1 adresse http qui change en fonction de la requête demandée
