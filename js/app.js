@@ -3,8 +3,6 @@
 	var app = {
 		init:function(){
 			this.getDataMenu();
-			//this.getDataAlice();
-			//this.getDataExample();
 		},
 
 		listeners: function() {
@@ -37,12 +35,8 @@
 			console.log(response.menu);
 
 			for (var i = 0; i < response.menu.length; i++) {
-				// var aliceMenu = response.menu[0];
-				// var exampleMenu = response.menu[1];
 				
-				//var url = "http://192.168.1.40:1337" + response.menu[i].path;
 				var obj = response.menu[i].title;
-				//console.log(obj)
 
 				$('#menu').append('<li>' + '<button>' + obj + '</button>' + '</li>');
 				$('#menu li button').addClass(function(index) {
